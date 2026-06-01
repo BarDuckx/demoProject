@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Пассажирам.РФ</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav>
+        <a href="{% url 'dashboard' %}" class="nav-logo">Пассажирам.РФ</a>
+        <div class="nav-links">
+            {% if request.user.is_authenticated %}
+                {% if request.user.username == 'Admin26' %}
+                    <a href="{% url 'admin_panel' %}">Управление</a>
+                {% else %}
+                    <a href="{% url 'create_application' %}">Новая заявка</a>
+                    <a href="{% url 'dashboard' %}">Личный кабинет</a>
+                {% endif %}
+                <a href="{% url 'logout' %}" style="color: #dc3545;">Выход</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>Наше местонахождение:</p>
+        <p class="subtext">г. Москва, ул. Большая Ордынка, д. 15</p>
+        <p class="subtext">Телефон горячей линии: +7 (495) 123-45-67</p>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card auth-form">
+    <h2 style="text-align: center;">Вход в систему</h2>
+    {% if error %}
+        <div class="error" style="text-align: center; margin-bottom: 15px; font-size: 14px;">{{ error }}</div>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <label class="form-label">Логин</label>
+        <input type="text" name="username" required>
+
+        <label class="form-label">Пароль</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Войти</button>
+    </form>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'register' %}" style="color: var(--primary); text-decoration: none; font-weight: bold; font-size: 14px;">Еще не зарегистрированы? Регистрация</a>
+    </div>
+</div>
+{% endblock %}

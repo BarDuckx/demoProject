@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card admin-panel">
+    <h2 style="text-align: center;">Панель администратора</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div style="padding: 15px; margin-bottom: 20px; border-radius: 6px; font-weight: bold; background: #d4edda; color: #155724; border: 1px solid #c3e6cb;" class="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="GET" style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+        <input type="text" name="search" value="{{ search_query }}" placeholder="Поиск по ФИО..." style="flex: 1; min-width: 200px; margin: 0;">
+        <select name="status_filter" style="flex: 1; min-width: 150px; margin: 0;" onchange="this.form.submit()">
+            <option value="">Все статусы</option>
+            {% for val, label in status_choices %}
+                <option value="{{ val }}" {% if status_filter == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <select name="sort" style="flex: 1; min-width: 150px; margin: 0;" onchange="this.form.submit()">
+            <option value="-created_at" {% if sort_by == '-created_at' %}selected{% endif %}>Сначала новые</option>
+            <option value="created_at" {% if sort_by == 'created_at' %}selected{% endif %}>Сначала старые</option>
+        </select>
+        <button type="submit" style="flex: 0.5; min-width: 100px; margin: 0;">Поиск</button>
+    </form>
+
+    <div class="table-responsive">
+        <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
+            <tr style="background: var(--bg); border-bottom: 2px solid var(--gray);">
+                <th style="padding: 10px; text-align: left;">Клиент</th>
+                <th style="padding: 10px; text-align: left;">Транспорт / Оплата</th>
+                <th style="padding: 10px; text-align: left;">Статус / Действие</th>
+                <th style="padding: 10px; text-align: left;">Отзыв</th>
+            </tr>
+            {% for app in page_obj %}
+            <tr style="border-bottom: 1px solid #e0e0e0;">
+                <td style="padding: 10px;">
+                    <strong>{{ app.user.fio }}</strong><br>
+                    <span class="subtext">{{ app.user.phone }}</span>
+                </td>
+                <td style="padding: 10px;">
+                    {{ app.get_transport_type_display }}<br>
+                    <span class="subtext">{{ app.start_date }} | {{ app.get_payment_method_display }}</span>
+                </td>
+                <td style="padding: 10px;">
+                    <form method="POST" style="display: flex; gap: 5px;">
+                        {% csrf_token %}
+                        <input type="hidden" name="app_id" value="{{ app.id }}">
+                        <select name="status" style="margin: 0; padding: 5px;">
+                            <option value="new" {% if app.status == 'new' %}selected{% endif %}>Новая</option>
+                            <option value="learning" {% if app.status == 'learning' %}selected{% endif %}>Идет обучение</option>
+                            <option value="completed" {% if app.status == 'completed' %}selected{% endif %}>Завершено</option>
+                        </select>
+                        <button type="submit" style="padding: 5px 10px; width: auto;">OK</button>
+                    </form>
+                </td>
+                <td style="padding: 10px;">
+                    {% if app.feedback %}<span class="subtext" style="color: #333;">{{ app.feedback }}</span>{% else %}<span class="subtext">Нет отзыва</span>{% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" style="padding: 20px; text-align: center;" class="subtext">Заявок не найдено.</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+        {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}&search={{ search_query }}&status_filter={{ status_filter }}&sort={{ sort_by }}" class="btn" style="width: auto;">&laquo; Назад</a>{% endif %}
+        <span style="padding: 10px; font-weight: bold;">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}&search={{ search_query }}&status_filter={{ status_filter }}&sort={{ sort_by }}" class="btn" style="width: auto;">Вперед &raquo;</a>{% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.querySelectorAll('.alert').forEach(alert => {
+        setTimeout(() => {
+            alert.style.transition = "opacity 0.5s ease";
+            alert.style.opacity = "0";
+            setTimeout(() => alert.remove(), 500);
+        }, 4000);
+    });
+</script>
+{% endblock %}

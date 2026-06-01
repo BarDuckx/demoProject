@@ -1,0 +1,258 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary: #007bff;
+    --secondary: #0d47a1;
+    --gray: #6c757d;
+    --bg: #f8f9fa;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'PT Sans', sans-serif;
+    background-color: var(--bg);
+    color: #333;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--secondary);
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--secondary);
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--secondary);
+}
+
+.subtext {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--gray);
+}
+
+.container {
+    width: 100%;
+    max-width: none;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card {
+    background: var(--white);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card.admin-panel {
+    max-width: 1200px !important;
+}
+
+.apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.apps-grid .card {
+    max-width: none !important;
+    margin: 0 !important;
+    width: 100%;
+}
+
+.slider-container.card {
+    max-width: 800px !important;
+    margin: 0 auto;
+}
+
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: var(--white);
+    border-bottom: 2px solid var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.nav-logo {
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    background: linear-gradient(to right, var(--primary), var(--white)) no-repeat;
+    background-size: 100% 2px;
+    background-position: bottom;
+    color: var(--secondary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--secondary);
+}
+
+button, .btn {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 12px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    transition: all 0.2s ease;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+}
+
+button:hover, .btn:hover {
+    background: var(--secondary);
+    transform: scale(1.02);
+}
+
+.auth-form {
+    max-width: 400px !important;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid var(--gray);
+    background: var(--white);
+    color: #333;
+    font-family: 'PT Sans', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--gray);
+}
+
+.error {
+    color: #dc3545;
+    font-size: 12px;
+    display: block;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.status-badge {
+    font-weight: bold;
+    color: var(--primary);
+}
+
+footer {
+    width: 100%;
+    background: var(--secondary);
+    color: var(--white);
+    text-align: center;
+    padding: 20px 15px;
+    margin-top: auto;
+}
+
+footer p {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+footer .subtext {
+    color: #d1d5db;
+}
+
+@media (max-width: 768px) {
+    .container, nav {
+        max-width: 900px;
+    }
+
+    .nav-logo {
+        font-size: 18px;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: space-evenly;
+        gap: 5px;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+        padding: 5px 2px;
+    }
+
+    .auth-box {
+        max-width: 400px;
+        margin: 40px auto;
+    }
+
+    .apps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+}

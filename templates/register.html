@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card auth-form">
+    <h2 style="text-align: center;">Регистрация</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <label class="form-label">{{ field.label }}</label>
+            {% if field.name == 'birth_date' %}
+                <input type="text" name="{{ field.name }}" class="date-mask" placeholder="ДД.ММ.ГГГГ" required>
+            {% else %}
+                {{ field }}
+            {% endif %}
+            {% if field.errors %}
+                <span class="error">{{ field.errors.0 }}</span>
+            {% endif %}
+        {% endfor %}
+        <button type="submit">Создать аккаунт</button>
+    </form>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'login' %}" style="color: var(--primary); text-decoration: none; font-weight: bold; font-size: 14px;">Уже зарегистрированы? Войти</a>
+    </div>
+</div>
+{% endblock %}
